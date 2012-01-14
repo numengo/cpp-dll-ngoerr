@@ -29,11 +29,3 @@ project "NgoErr"
     -- PROJECT MODIFICATIONS END--
 
     AppendSharedLibBuildOptions(_targetname.._version)
-
-project "test_NgoErr"
-    -- PROJECT MODIFICATIONS START--
-    local _targetname = "test_NgoErr"
-    links {"NgoErr"}
-    -- PROJECT MODIFICATIONS END--
-
-    AppendTestBuildOptions(_targetname.._version)
