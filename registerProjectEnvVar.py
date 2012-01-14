@@ -8,4 +8,4 @@ try:
    manageEnv.createUserEnvVar('DirProjectNgoErrRoot',projectPath)
 except Exception,er:
    print er
-raw_input()
+#raw_input()

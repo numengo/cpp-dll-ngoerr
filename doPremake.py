@@ -9,4 +9,4 @@ else:
    target = 'codeblocks'
 cmd = '%s %s'%(premake,target)
 subprocess.call(cmd)
-raw_input()
+#raw_input()
