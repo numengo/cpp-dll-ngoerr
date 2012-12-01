@@ -199,7 +199,7 @@ public:
     virtual void flush();
     /*! @brief method to retrieve the buffered message. Once retrieved the buffer is empty */
     std::string getBufferedMessage();
-    /*! @brief method to know if buffer is empty */
+    /*! @brief method to know if buffer is empty or not*/
     bool isBufferEmpty() [return buffer_.empty();)
 private:
     /*! @brief string to hold the buffer */
