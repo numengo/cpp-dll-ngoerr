@@ -168,7 +168,7 @@ NgoErrorBadArgument::NgoErrorBadArgument(int position
                         :NgoErrorData(desc,scope,ifc,oper),position_(position)
 {
    code_ = E_BADARGUMENT;
-   name_ = "BadArgument";
+   name_ = "Bad Argument";
 };
 
 void NgoErrorBadArgument::print(
@@ -190,7 +190,7 @@ NgoErrorLicenceError::NgoErrorLicenceError(std::string desc,std::string scope,st
                          :NgoErrorData(desc,scope,ifc,oper)
 {
    code_ = E_LICENCEERROR;
-   name_ = "LicenceNgoError";
+   name_ = "Licence Error";
 };
 
 /*******************************************************************************
@@ -201,7 +201,7 @@ NgoErrorInvalidArgument::NgoErrorInvalidArgument(int position
                             :NgoErrorBadArgument(position,desc,scope,ifc,oper)
 {
    code_ = E_INVALIDARGUMENT;
-   name_ = "InvalidArgument";
+   name_ = "Invalid Argument";
 };
 
 /*******************************************************************************
@@ -212,7 +212,7 @@ NgoErrorThrmPropertyNotAvailable::NgoErrorThrmPropertyNotAvailable(int position
                             :NgoErrorBadArgument(position,desc,scope,ifc,oper)
 {
    code_ = E_THRMPROPERTYNOTAVAILABLE;
-   name_ = "ThrmPropertyNotAvailable";
+   name_ = "Thermodynamic Property Not Available";
 };
 
 /*******************************************************************************
@@ -224,7 +224,7 @@ NgoErrorOutOfBounds::NgoErrorOutOfBounds(double value, double lower_bound, doubl
                         :NgoErrorBadArgument(position,desc,scope,ifc,oper), NgoErrorBoundaries(value,lower_bound,upper_bound,type)
 {
    code_ = E_OUTOFBOUNDS;
-   name_ = "OutOfBounds";
+   name_ = "Out Of Bounds";
 };
 
 void NgoErrorOutOfBounds::print(
@@ -243,7 +243,7 @@ NgoErrorSolving::NgoErrorSolving(std::string desc,std::string scope,std::string 
                     :NgoErrorComputation(desc,scope,ifc,oper)
 {
    code_ = E_SOLVINGERROR;
-   name_ = "NgoErrorSolving";
+   name_ = "Error Solving";
 };
 
 /*******************************************************************************
@@ -253,7 +253,7 @@ NgoErrorFailedInitialisation::NgoErrorFailedInitialisation(std::string desc,std:
                                  :NgoErrorComputation(desc,scope,ifc,oper)
 {
    code_ = E_FAILEDINITIALISATION;
-   name_ = "FailedInitialisation";
+   name_ = "Failed Initialisation";
 };
 
 /*******************************************************************************
@@ -263,7 +263,7 @@ NgoErrorInvalidOperation::NgoErrorInvalidOperation(std::string desc,std::string 
                              :NgoErrorComputation(desc,scope,ifc,oper)
 {
    code_ = E_INVALIDOPERATION;
-   name_ = "InvalidOperation";
+   name_ = "Invalid Operation";
 };
 
 /*******************************************************************************
@@ -283,7 +283,7 @@ NgoErrorLimitedImpl::NgoErrorLimitedImpl(std::string desc,std::string scope,std:
                         :NgoErrorImplementation(desc,scope,ifc,oper)
 {
    code_ = E_LIMITEDIMPL;
-   name_ = "LimitedImplementation";
+   name_ = "Limited Implementation";
 };
 
 /*******************************************************************************
@@ -295,7 +295,7 @@ NgoErrorBadInvOrder::NgoErrorBadInvOrder(std::string requestedOperatation_
 {
    requestedOperatation_ = requestedOperatation_;
    code_ = E_BADINVORDER;
-   name_ = "BadInvOrder";
+   name_ = "Bad Invocation Order";
 };
 
 
