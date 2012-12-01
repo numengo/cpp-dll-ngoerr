@@ -193,14 +193,14 @@ class NGO_ERR_EXPORT NgoLoggerBufferedString : public NgoLogger
 public:
     /*! @brief constructor */
     /*! @param reportingLevel reporting level */
-    NgoLoggerBufferedString(TLogLevel reportingLevel);
+    NgoLoggerBufferedString(TLogLevel reportingLevel=logDEBUG4);
     ~NgoLoggerBufferedString();
     virtual void output(const TLogLevel level, std::string & log);
     virtual void flush();
     /*! @brief method to retrieve the buffered message. Once retrieved the buffer is empty */
     std::string getBufferedMessage();
     /*! @brief method to know if buffer is empty or not*/
-    bool isBufferEmpty() [return buffer_.empty();)
+    bool isBufferEmpty() {return buffer_.empty();}
 private:
     /*! @brief string to hold the buffer */
     std::string buffer_;
