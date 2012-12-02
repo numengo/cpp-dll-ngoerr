@@ -215,6 +215,11 @@ TLogLevel NgoLoggerManager::fromString(const std::string& level)
     return logINFO;
 }
 
+std::vector<NgoLogger *> NgoLoggerManager::getLoggers()
+{
+    return loggers_;
+}
+
 TLogLevel NgoLoggerManager::reportingLevel()
 {
     TLogLevel ret = logERROR;
