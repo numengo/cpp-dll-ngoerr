@@ -43,7 +43,7 @@ TEST(LogInfo)
     NgoLoggerManager::kill();
 }
 
-TEST(LogDebug)
+TEST(logDEBUG)
 {
     new NgoLoggerFile(stderr,logDEBUG1);
     NGOLOG(logINFO) << "Log only DEBUG1";
@@ -112,6 +112,13 @@ TEST(LogIntoFile)
     logSomeStuff();
     NGOLOG(logINFO) << "FINISH";
     NgoLoggerManager::kill();
+}
+
+TEST(ExampleOfUse)
+{
+    NgoLog log(logINFO);
+    log.get() << "coucou1" << std::endl;
+    log.get() << "coucou2" << std::endl;
 }
 
 } // end of anonymous namespace
