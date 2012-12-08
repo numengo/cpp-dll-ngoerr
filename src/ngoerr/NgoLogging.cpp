@@ -47,6 +47,8 @@
 NgoLog::NgoLog(TLogLevel level,bool unique)
 :level_(level),unique_(unique)
 {
+    os.setf(std::ios::scientific,std::ios::floatfield);
+    os.precision(5);
     os << NgoLoggerManager::get()->toString(level) << "\t: "; 
 };
 
@@ -375,7 +377,15 @@ void NgoLogError(NgoError & er)
         level = logERROR;
         break;
     }
-    NgoLog log(level,er.getCode()==E_THRMPROPERTYNOTAVAILABLE);
+    bool unique = false;
+    int code = er.getCode();
+    if ( (code == E_THRMPROPERTYNOTAVAILABLE)
+       ||(code == E_DATA)
+       ||(code == E_LICENCEERROR)
+       )
+       unique = true;
+    
+    NgoLog log(level,unique);
     log.get() << NgoErrorName_(er) << std::endl;
     log.get() << er.getDescription() << std::endl;
     if ((NgoLoggerManager::get()->reportingLevel() >= logDEBUG)&&(!er.getScope().empty()))
