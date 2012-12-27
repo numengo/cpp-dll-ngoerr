@@ -225,7 +225,7 @@ std::vector<NgoLogger *> NgoLoggerManager::getLoggers()
 TLogLevel NgoLoggerManager::reportingLevel()
 {
     TLogLevel ret = logERROR;
-    for (unsigned i=0;i<loggers_.size();i++)
+    for (int i=loggers_.size()-1;i;i--)
         if (loggers_[i]->reportingLevel() > ret) 
             ret = loggers_[i]->reportingLevel();
     return ret;

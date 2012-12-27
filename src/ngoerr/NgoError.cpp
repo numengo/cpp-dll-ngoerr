@@ -60,7 +60,7 @@ void NgoError::addScopeError(std::string scope)
 void NgoError::addDescription(std::string desc)
 {
    std::ostringstream oss;
-   oss << (*this).description_<< std::endl << desc << std::endl;
+   oss << (*this).description_<< std::endl << desc;
    (*this).description_ = oss.str();
 };
 
