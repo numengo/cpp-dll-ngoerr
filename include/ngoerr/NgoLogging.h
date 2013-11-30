@@ -228,18 +228,10 @@ private:
     static NgoLoggerManager * instance_;
 
 public:
-    static NgoLoggerManager * get() {
-        if (0L == instance_)
-             instance_ = new NgoLoggerManager();
-        return instance_;
-    };
-    static void kill() {
-        if (instance_ != 0L)
-        {
-            delete instance_;
-            instance_ = 0L;
-        }
-    }
+	/*! @brief singleton get method */
+    static NgoLoggerManager * get(); 
+	/*! @brief singleton kill method */
+    static void kill();
 
 public:
     /*! @brief method to flush all registered loggers */
@@ -252,6 +244,8 @@ public:
     TLogLevel reportingLevel();
     /*! @brief method to access the vector of registered pointers */
     std::vector<NgoLogger *> getLoggers();
+	/*! @brief get buffered logger */
+	NgoLoggerBufferedString * getBufferedLogger();
 private:
     std::vector<NgoLogger *> loggers_;
     std::vector<std::string> uniqueLogs_;
@@ -260,6 +254,8 @@ protected:
     void addUniqueLog(TLogLevel level, std::string & msg);
     /*! @brief this is the method to dispatch a log to all loggers */
     void addLog(TLogLevel level, std::string & msg);
+	/*! @brief buffered logger */
+	static NgoLoggerBufferedString * buffered;
 };
 
 /*! @brief this is the macro to use to create logs easily

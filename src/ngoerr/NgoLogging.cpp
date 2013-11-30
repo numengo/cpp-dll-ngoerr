@@ -179,15 +179,42 @@ std::string NgoLoggerBufferedString::getBufferedMessage()
    CLASS NgoLoggerManager DEFINITION
 *******************************************************************************/
 NgoLoggerManager * NgoLoggerManager::instance_ = 0L;
+NgoLoggerBufferedString * NgoLoggerManager::buffered = 0L;
 
 NgoLoggerManager::NgoLoggerManager() 
-{};
+{
+};
 
 NgoLoggerManager::~NgoLoggerManager()
 {
     for (int i=loggers_.size()-1;i>=0;i--)
         delete loggers_[i];
+	buffered = 0L;
 };
+
+NgoLoggerManager * NgoLoggerManager::get()
+{
+    if (0L == instance_) {
+		instance_ = new NgoLoggerManager();
+#ifdef _DEBUG
+		NgoLoggerFile * logstderr = new NgoLoggerFile(stderr);
+		buffered = new NgoLoggerBufferedString();
+#else
+		NgoLoggerFile * logstderr = new NgoLoggerFile(stderr,logINFO);
+		buffered = new NgoLoggerBufferedString(logINFO);
+#endif
+	}
+    return instance_;
+}
+
+void NgoLoggerManager::kill() 
+{
+    if (instance_ != 0L)
+    {
+        delete instance_;
+        instance_ = 0L;
+    }
+}
 
 std::string NgoLoggerManager::toString(TLogLevel level)
 {
@@ -221,6 +248,12 @@ std::vector<NgoLogger *> NgoLoggerManager::getLoggers()
 {
     return loggers_;
 }
+
+NgoLoggerBufferedString * NgoLoggerManager::getBufferedLogger()
+{
+	return buffered;
+}
+
 
 TLogLevel NgoLoggerManager::reportingLevel()
 {
