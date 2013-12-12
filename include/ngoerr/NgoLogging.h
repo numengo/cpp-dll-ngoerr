@@ -198,7 +198,7 @@ public:
     virtual void output(const TLogLevel level, std::string & log);
     virtual void flush();
     /*! @brief method to retrieve the buffered message. Once retrieved the buffer is empty */
-    std::string getBufferedMessage();
+    const char * getBufferedMessage();
     /*! @brief method to know if buffer is empty or not*/
     bool isBufferEmpty() {return buffer_.empty();}
 private:
