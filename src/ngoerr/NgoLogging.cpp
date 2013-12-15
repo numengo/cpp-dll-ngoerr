@@ -168,11 +168,12 @@ void NgoLoggerBufferedString::flush()
     // we should do nothing, as in fact, we want to flush when buffered message is required
 }
 
+static std::string returnedBuffer;
 const char * NgoLoggerBufferedString::getBufferedMessage()
 {
-    std::string ret = buffer_;
+    returnedBuffer = buffer_;
     buffer_.clear();
-    return ret.c_str();
+    return returnedBuffer.c_str();
 }
 
 /*******************************************************************************
