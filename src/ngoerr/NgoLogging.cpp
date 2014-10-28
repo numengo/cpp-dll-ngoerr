@@ -198,10 +198,10 @@ NgoLoggerManager * NgoLoggerManager::get()
     if (0L == instance_) {
 		instance_ = new NgoLoggerManager();
 #ifdef _DEBUG
-		NgoLoggerFile * logstderr = new NgoLoggerFile(stderr);
+		//NgoLoggerFile * logstderr = new NgoLoggerFile(stderr);
 		buffered = new NgoLoggerBufferedString();
 #else
-		NgoLoggerFile * logstderr = new NgoLoggerFile(stderr,logINFO);
+		//NgoLoggerFile * logstderr = new NgoLoggerFile(stderr,logINFO);
 		buffered = new NgoLoggerBufferedString(logINFO);
 #endif
 	}
