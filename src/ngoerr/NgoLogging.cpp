@@ -259,7 +259,7 @@ NgoLoggerBufferedString * NgoLoggerManager::getBufferedLogger()
 TLogLevel NgoLoggerManager::reportingLevel()
 {
     TLogLevel ret = logERROR;
-    for (int i=loggers_.size()-1;i;i--)
+    for (int i=0;i<loggers_.size();i++)
         if (loggers_[i]->reportingLevel() > ret) 
             ret = loggers_[i]->reportingLevel();
     return ret;
