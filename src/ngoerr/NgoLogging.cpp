@@ -55,11 +55,11 @@ NgoLog::NgoLog(TLogLevel level,bool unique)
 
 NgoLog::~NgoLog()
 {
-    os << std::endl;
+    std::string log;
     if (!unique_)
-        NgoLoggerManager::get()->addLog(level_,os.str());
+        NgoLoggerManager::get()->addLog(level_,log);
     else
-        NgoLoggerManager::get()->addUniqueLog(level_,os.str());
+        NgoLoggerManager::get()->addUniqueLog(level_,log);
 }
 /*******************************************************************************
    CLASS NgoLogger DEFINITION

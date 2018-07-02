@@ -64,6 +64,7 @@ void NgoError::addDescription(std::string desc)
    (*this).description_ = oss.str();
 };
 
+/*
 void NgoError::print(
 std::ostream& os
 )
@@ -74,28 +75,24 @@ const
       line += "*";
    os  << name_ << " :\n" << line;
    line.clear();
-   if (!scope_.empty())
-   {
+   if (!scope_.empty()) {
       os << "\nScope : "
            << scope_;
    }
-   if (!interfaceName_.empty())
-   {
+   if (!interfaceName_.empty()) {
       os << "\nInterface : "
            << interfaceName_;
    }
-   if (!operation_.empty())
-   {
+   if (!operation_.empty()) {
       os << "\nOperation : "
            << operation_;
    }
-   if (!description_.empty())
-   {
+   if (!description_.empty()) {
       os << "\nDescription :\n"
            << description_;
    }
 }
-
+*/
 
 /*******************************************************************************
    CLASS NgoErrorUnknown INLINE FUNCTIONS
@@ -115,15 +112,14 @@ NgoErrorBoundaries::NgoErrorBoundaries(double value, double lower_bound, double 
 {
 };
 
-
+/*
 void NgoErrorBoundaries::print(
 std::ostream& os
 )
 const
 {
    os << "\tA value ";
-   if (type_ != "")
-   {
+   if (type_ != "") {
       os << "of type " << type_;
    }
    os << "(= " << value_ << ") is out of bounds [" << lower_bound_ << "," << upper_bound_ << "]\n";
@@ -170,7 +166,7 @@ NgoErrorBadArgument::NgoErrorBadArgument(int position
    code_ = E_BADARGUMENT;
    name_ = "Bad Argument";
 };
-
+/*
 void NgoErrorBadArgument::print(
 std::ostream& os
 )
@@ -226,7 +222,7 @@ NgoErrorOutOfBounds::NgoErrorOutOfBounds(double value, double lower_bound, doubl
    code_ = E_OUTOFBOUNDS;
    name_ = "Out Of Bounds";
 };
-
+/*
 void NgoErrorOutOfBounds::print(
 std::ostream& os
 )

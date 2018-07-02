@@ -52,7 +52,7 @@ enum TLogLevel {logERROR, logWARNING, logINFO, logDEBUG, logDEBUG1, logDEBUG2, l
 
 /*! @brief function to create a log with a formatted string */
 /*! @ingroup grp_log */
-NGO_ERR_EXPORT int NgoLogf(TLogLevel level, const char * fmt, ... );
+NGOERR_EXPORT int NgoLogf(TLogLevel level, const char * fmt, ... );
 
 #ifdef __cplusplus
 } // end extern "C"
@@ -69,7 +69,7 @@ User can access the stream which is automatically redirected to the logger manag
 It is usually used through the macro NGOLOG : NGOLOG(LogError) << "a log defining an error";
 @ingroup grp_log
 */
-class NGO_ERR_EXPORT NgoLog
+class NGOERR_EXPORT NgoLog
 {
 public:
     /*! @brief constructor
@@ -146,7 +146,7 @@ protected:
 @brief class to log the output to a file or a stream. For a file, it is better to use @ref NgoLoggerFilename
 @ingroup grp_loggers_avl
 */
-class NGO_ERR_EXPORT NgoLoggerFile: public NgoLogger
+class NGOERR_EXPORT NgoLoggerFile: public NgoLogger
 {
 public:
     /*! @brief constructor */
@@ -167,7 +167,7 @@ protected:
 The file is closed at each flush and updated each time.
 @ingroup grp_loggers_avl
 */
-class NGO_ERR_EXPORT NgoLoggerFilename : public NgoLoggerFile
+class NGOERR_EXPORT NgoLoggerFilename : public NgoLoggerFile
 {
 public:
     /*! @brief constructor */
@@ -188,7 +188,7 @@ private:
 is closed at each flush and updated each time.
 @ingroup grp_loggers_avl
 */
-class NGO_ERR_EXPORT NgoLoggerBufferedString : public NgoLogger
+class NGOERR_EXPORT NgoLoggerBufferedString : public NgoLogger
 {
 public:
     /*! @brief constructor */
@@ -217,7 +217,7 @@ It contains some methods that
 It flushes the message in all registered loggers and remove current messages
 @ingroup grp_logger
 */
-class NGO_ERR_EXPORT NgoLoggerManager
+class NGOERR_EXPORT NgoLoggerManager
 {
     friend class NgoLog;
     friend class NgoLogger;
@@ -271,7 +271,7 @@ Another test is then made to compare it to all registered reporting levels.
 /*! @brief method to log the content of an error @ref NgoError to a properly formatted log
 The content is adapted to the reporting level of loggers
 */
-void NGO_ERR_EXPORT NgoLogError(NgoError & er);
+void NGOERR_EXPORT NgoLogError(NgoError & er);
 
 
 #endif // _NgoLogging_h

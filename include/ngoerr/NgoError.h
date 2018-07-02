@@ -52,30 +52,32 @@ and the current @ref grp_eos_avl "available descriptions".
 /*******************************************************************************
    DEFINES / TYPDEFS / ENUMS
 *******************************************************************************/
-#ifdef NGO_ERR_USE_DYN
-   #ifdef  _MSC_VER
-   	#ifndef NGO_ERR_EXPORT
-   		#ifdef NGO_ERR_MAKE_DLL
-   			#define NGO_ERR_EXPORT __declspec( dllexport )
-   		#else
-   			#define NGO_ERR_EXPORT __declspec( dllimport )
-   		#endif
-   	#endif
-   	#pragma warning( disable: 4251 )
-   	#pragma warning( disable: 4275 )
-   	#pragma warning( disable: 4996 )
-   	#pragma warning( disable: 4661 )
-   #else
-   	#ifndef NGO_ERR_EXPORT
-   		#ifdef NGO_ERR_MAKE_DLL
-   			#define NGO_ERR_EXPORT
-   		#else
-   			#define NGO_ERR_EXPORT
-   		#endif
-   	#endif
-   #endif
+#ifdef NGOERR_USE_DYN
+	#ifdef  _MSC_VER
+		#ifndef NGOERR_EXPORT
+			#ifdef NGOERR_MAKE_DLL
+				#define NGOERR_EXPORT __declspec( dllexport )
+			#else
+				#define NGOERR_EXPORT __declspec( dllimport )
+			#endif
+		#endif
+		#pragma warning( disable: 4251 )
+		#pragma warning( disable: 4275 )
+		#pragma warning( disable: 4996 )
+		#pragma warning( disable: 4661 )
+		#pragma warning( disable: 4267 )
+		#pragma warning( disable: 4018 )
+	#else
+		#ifndef NGOERR_EXPORT
+			#ifdef NGOERR_MAKE_DLL
+				#define NGOERR_EXPORT
+			#else
+				#define NGOERR_EXPORT
+			#endif
+		#endif
+	#endif
 #else
-	#define NGO_ERR_EXPORT
+	#define NGOERR_EXPORT
 #endif
 
 const double UNDEFERR = std::numeric_limits<double>::quiet_NaN();
@@ -123,7 +125,7 @@ E_THRMPROPERTYNOTAVAILABLE  /*!< A requested thermodynamic property is not avail
 @brief The base class of the errors hierarchy. This is an abstract class. No real error can be raised from this class.
 @ingroup grp_err
 */
-class NGO_ERR_EXPORT NgoError
+class NGOERR_EXPORT NgoError
 {
 public :
    /*! @brief Constructor */
@@ -157,7 +159,29 @@ public :
    int getCode() { return code_;};
 
    /*! @brief Function to format NgoError print output */
-   virtual void print(std::ostream& os) const;
+   virtual void print(std::ostream& os) const {
+   std::string line;
+   for (unsigned i=name_.length()+2;i--;)
+      line += "*";
+   os  << name_ << " :\n" << line;
+   line.clear();
+   if (!scope_.empty()) {
+      os << "\nScope : "
+           << scope_;
+   }
+   if (!interfaceName_.empty()) {
+      os << "\nInterface : "
+           << interfaceName_;
+   }
+   if (!operation_.empty()) {
+      os << "\nOperation : "
+           << operation_;
+   }
+   if (!description_.empty()) {
+      os << "\nDescription :\n"
+           << description_;
+   }
+};
 
    /*! @brief Function to get error description */
    std::string getDescription() const {return description_;};
@@ -200,7 +224,7 @@ inline std::ostream& operator << (std::ostream& os, const NgoError& E)
 @ingroup grp_err_avl
 @brief The error to be raised when other error(s), specified by the operation, do not suit.
 */
-class NGO_ERR_EXPORT NgoErrorUnknown : public NgoError
+class NGOERR_EXPORT NgoErrorUnknown : public NgoError
 {
 public :
    /*! @brief Constructor */
@@ -227,7 +251,7 @@ public :
 @ingroup grp_err_avl
 @brief A "utility" class which factorises a state which describes the value, its type and its boundaries
 */
-class NGO_ERR_EXPORT NgoErrorBoundaries
+class NGOERR_EXPORT NgoErrorBoundaries
 {
 public :
    /*! @brief Constructor */
@@ -246,7 +270,13 @@ public :
    virtual ~NgoErrorBoundaries(){};
 
    /*! @copydoc NgoError::print */
-   virtual void print(std::ostream& os) const;
+   virtual void print(std::ostream& os) const {
+   os << "\tA value ";
+   if (type_ != "") {
+      os << "of type " << type_;
+   }
+   os << "(= " << value_ << ") is out of bounds [" << lower_bound_ << "," << upper_bound_ << "]\n";
+};
 
    /*! @brief virtual method to raise a polymorphic exception */
    virtual void raise() { throw *this;};
@@ -270,7 +300,7 @@ protected :
 @ingroup grp_err_avl
 @brief The base class of the errors hierarchy related to any data. The data are the arguments of operations, the parameters.
 */
-class NGO_ERR_EXPORT NgoErrorData : public NgoError
+class NGOERR_EXPORT NgoErrorData : public NgoError
 {
 public :
    /*! @brief Constructor */
@@ -298,7 +328,7 @@ public :
 @ingroup grp_err_avl
 @brief The base class of the errors hierarchy related to the current implementation.
 */
-class NGO_ERR_EXPORT NgoErrorImplementation : public NgoError
+class NGOERR_EXPORT NgoErrorImplementation : public NgoError
 {
 public :
    /*! @brief Constructor */
@@ -325,7 +355,7 @@ public :
 @ingroup grp_err_avl
 @brief The base class of the errors hierarchy related to the calculation.
 */
-class NGO_ERR_EXPORT NgoErrorComputation : public NgoError
+class NGOERR_EXPORT NgoErrorComputation : public NgoError
 {
 public :
    /*! @brief Constructor */
@@ -353,7 +383,7 @@ public :
 @ingroup grp_err_avl
 @brief An argument value of the operation is not correct
 */
-class NGO_ERR_EXPORT NgoErrorBadArgument : public NgoErrorData
+class NGOERR_EXPORT NgoErrorBadArgument : public NgoErrorData
 {
 public :
    /*! @brief Constructor */
@@ -371,7 +401,13 @@ public :
    virtual ~NgoErrorBadArgument(){};
 
    /*! @copydoc NgoError::print */
-   virtual void print(std::ostream& os) const;
+   virtual void print(std::ostream& os) const {
+   NgoError::print(os);
+   if (position_)
+   {
+      os << "\tArgument with position " << position_ << " is not correct.\n";
+   }
+};
 
    /*! @brief virtual method to raise a polymorphic exception */
    virtual void raise() { throw *this;};
@@ -387,7 +423,7 @@ private :
 @ingroup grp_err_avl
 @brief An operation can not be completed because the licence agreement is not respected.
 */
-class NGO_ERR_EXPORT NgoErrorLicenceError : public NgoErrorData
+class NGOERR_EXPORT NgoErrorLicenceError : public NgoErrorData
 {
 public :
    /*! @brief Constructor */
@@ -415,7 +451,7 @@ public :
 @ingroup grp_err_avl
 @brief An invalid argument value was passed
 */
-class NGO_ERR_EXPORT NgoErrorInvalidArgument : public NgoErrorBadArgument
+class NGOERR_EXPORT NgoErrorInvalidArgument : public NgoErrorBadArgument
 {
 public :
    /*! @brief Constructor */
@@ -443,7 +479,7 @@ public :
 @ingroup grp_err_avl
 @brief A Physical Property is not available
 */
-class NGO_ERR_EXPORT NgoErrorThrmPropertyNotAvailable : public NgoErrorBadArgument
+class NGOERR_EXPORT NgoErrorThrmPropertyNotAvailable : public NgoErrorBadArgument
 {
 public :
    /*! @brief Constructor */
@@ -471,7 +507,7 @@ public :
 @ingroup grp_err_avl
 @brief An argument value is outside of the bounds.
 */
-class NGO_ERR_EXPORT NgoErrorOutOfBounds : public NgoErrorBadArgument, public NgoErrorBoundaries
+class NGOERR_EXPORT NgoErrorOutOfBounds : public NgoErrorBadArgument, public NgoErrorBoundaries
 {
 public :
 
@@ -494,7 +530,10 @@ public :
    virtual ~NgoErrorOutOfBounds(){};
 
    /*! @copydoc NgoError::print */
-   virtual void print(std::ostream& os) const;
+   virtual void print(std::ostream& os) const {
+   NgoErrorBadArgument::print(os);
+   NgoErrorBoundaries::print(os);
+};
 
    /*! @brief virtual method to raise a polymorphic exception */
    virtual void raise() { throw *this;};
@@ -508,7 +547,7 @@ public :
 @ingroup grp_err_avl
 @brief A numerical algorithm fails for any reasons.
 */
-class NGO_ERR_EXPORT NgoErrorSolving : public NgoErrorComputation
+class NGOERR_EXPORT NgoErrorSolving : public NgoErrorComputation
 {
 public :
    /*! @brief Constructor */
@@ -535,7 +574,7 @@ public :
 @ingroup grp_err_avl
 @brief The pre-requisites are not valid. The necessary initialisation has not been performed or has failed.
 */
-class NGO_ERR_EXPORT NgoErrorFailedInitialisation : public NgoErrorComputation
+class NGOERR_EXPORT NgoErrorFailedInitialisation : public NgoErrorComputation
 {
 public :
    /*! @brief Constructor */
@@ -562,7 +601,7 @@ public :
 @ingroup grp_err_avl
 @brief This operation is not valid in the current context
 */
-class NGO_ERR_EXPORT NgoErrorInvalidOperation : public NgoErrorComputation
+class NGOERR_EXPORT NgoErrorInvalidOperation : public NgoErrorComputation
 {
 public :
    /*! @brief Constructor */
@@ -587,9 +626,9 @@ public :
 /*!
 @class NgoErrorNoImpl
 @ingroup grp_err_avl
-@brief The operation is “not” implemented. The operation exists but it is not supported by the current implementation.
+@brief The operation is \93not\94 implemented. The operation exists but it is not supported by the current implementation.
 */
-class NGO_ERR_EXPORT NgoErrorNoImpl : public NgoErrorImplementation
+class NGOERR_EXPORT NgoErrorNoImpl : public NgoErrorImplementation
 {
 public :
    /*! @brief Constructor */
@@ -616,7 +655,7 @@ public :
 @ingroup grp_err_avl
 @brief The limit of the implementation has been violated. An operation may be partially implemented
 */
-class NGO_ERR_EXPORT NgoErrorLimitedImpl : public NgoErrorImplementation
+class NGOERR_EXPORT NgoErrorLimitedImpl : public NgoErrorImplementation
 {
 public :
    /*! @brief Constructor */
@@ -643,7 +682,7 @@ public :
 @ingroup grp_err_avl
 @brief An invalid argument value was passed
 */
-class NGO_ERR_EXPORT NgoErrorBadInvOrder : public NgoErrorComputation
+class NGOERR_EXPORT NgoErrorBadInvOrder : public NgoErrorComputation
 {
 public :
    /*! @brief Constructor */
