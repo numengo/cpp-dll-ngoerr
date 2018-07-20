@@ -1,4 +1,4 @@
-NgoErr (v1.2.1) - numengo exceptions based on CAPE-OPEN
+NgoErr (vv1.2.2.) - numengo exceptions based on CAPE-OPEN
 ======================================================================
 
 

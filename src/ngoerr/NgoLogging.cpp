@@ -55,7 +55,7 @@ NgoLog::NgoLog(TLogLevel level,bool unique)
 
 NgoLog::~NgoLog()
 {
-    std::string log;
+    std::string log = this->os.str();
     if (!unique_)
         NgoLoggerManager::get()->addLog(level_,log);
     else
