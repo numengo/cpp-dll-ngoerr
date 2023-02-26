@@ -1,5 +1,5 @@
 
-dofile (path.join(os.getenv("DirScriptsRoot"),"premake_common.lua"))
+dofile (path.join(os.getenv("DIR_SCRIPTS_ROOT"),"premake5_common.lua"))
 
 -- solution NgoErr --
 solution "NgoErr"

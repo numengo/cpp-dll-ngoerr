@@ -49,17 +49,20 @@ NgoLog::NgoLog(TLogLevel level,bool unique)
 {
     os.setf(std::ios::scientific,std::ios::floatfield);
     os.precision(5);
-    os << NgoLoggerManager::get()->toString(level) << "\t: "; 
+    os << NgoLoggerManager::get()->toString(level) << "\t: ";
 };
 
 
 NgoLog::~NgoLog()
 {
     os << std::endl;
+    std::string os_str = os.str();
     if (!unique_)
-        NgoLoggerManager::get()->addLog(level_,os.str());
+        //NgoLoggerManager::get()->addLog(level_,os.str());
+        NgoLoggerManager::get()->addLog(level_, os_str);
     else
-        NgoLoggerManager::get()->addUniqueLog(level_,os.str());
+        //NgoLoggerManager::get()->addUniqueLog(level_,os.str());
+        NgoLoggerManager::get()->addUniqueLog(level_, os_str);
 }
 /*******************************************************************************
    CLASS NgoLogger DEFINITION
